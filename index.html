@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hudson & Mariana ❤️</title>
-
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
 
@@ -13,10 +12,35 @@ body {
   color: white;
   min-height: 100vh;
   overflow-x: hidden;
-  overflow-y: hidden; /* Para evitar scroll das estrelas */
+  overflow-y: hidden;
 }
 
-/* ⭐ FUNDO DE ESTRELAS ANIMADO */
+/* 🌌 TELA DE CARREGAMENTO/APRESENTAÇÃO */
+#loadingScreen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
+  z-index: 9999;
+  transition: opacity 1.5s ease;
+}
+
+.loading-text {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  text-shadow: 0 0 20px #ff5fa2;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* ⭐ FUNDO DE ESTRELAS */
 .stars-bg {
   position: fixed;
   inset: 0;
@@ -24,9 +48,7 @@ body {
     radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
     radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
     radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
+    radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0));
   background-repeat: repeat;
   background-size: 200px 200px;
   z-index: -2;
@@ -34,11 +56,11 @@ body {
 }
 
 @keyframes starsTwinkle {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
 }
 
-/* 🌠 ESTRELAS CAINDO (SHOOTING STARS) */
+/* 🌠 ESTRELAS CAINDO */
 .shooting-stars {
   position: fixed;
   inset: 0;
@@ -49,9 +71,9 @@ body {
 
 .shooting-star {
   position: absolute;
-  background: linear-gradient(to right, rgba(255,255,255,0) 0%, #ffffff 50%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, #ffffff 80%, rgba(255,255,255,0) 100%);
   border-radius: 50%;
-  filter: blur(1px);
+  filter: blur(0.5px);
   opacity: 0;
 }
 
@@ -92,9 +114,12 @@ h1 {
   color: white;
   font-size: 1rem;
   box-shadow: 0 0 20px rgba(255,95,162,.6);
-  transition: transform 0.3s;
+  transition: all 0.3s;
 }
-.btn:hover { transform: scale(1.05); }
+.btn:hover { 
+  transform: scale(1.05); 
+  background: #ff7fb8;
+}
 
 /* ☄️ METEORO */
 .meteor {
@@ -125,13 +150,14 @@ h1 {
   position: absolute;
   font-size: 24px;
   animation: fall 5s linear forwards;
+  color: #ff5fa2;
 }
 @keyframes fall {
   from { transform: translateY(-10vh); opacity:1; }
   to { transform: translateY(110vh); opacity:0; }
 }
 
-/* CONTEÚDO DA TELA 3 - CORRIGIDO */
+/* CONTEÚDO DA TELA 3 */
 .screen-content {
   display: flex;
   flex-direction: column;
@@ -158,15 +184,57 @@ h1 {
 }
 
 .text-container {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
   padding: 25px;
   border-radius: 15px;
   max-width: 800px;
   margin: 0 auto 30px;
   line-height: 1.6;
   font-size: 1.2rem;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(3px);
   border: 1px solid rgba(255, 95, 162, 0.3);
+}
+
+/* TELA 4 - IMAGEM NÃO DESFOCADA */
+#s4 {
+  background: url('casal.webp') center/cover no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+.s4-content {
+  position: relative;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(2px);
+  border: 2px solid rgba(255, 95, 162, 0.4);
+  max-width: 800px;
+  margin: 0 20px;
+}
+
+/* BOTÃO DE CONTROLE DE MÚSICA */
+#musicToggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: rgba(255, 95, 162, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+#musicToggle:hover {
+  background: rgba(255, 95, 162, 1);
+  transform: scale(1.1);
 }
 
 /* Ajustes para telas menores */
@@ -181,18 +249,29 @@ h1 {
     max-width: 200px;
     max-height: 150px;
   }
+  .s4-content {
+    padding: 25px;
+    margin: 0 15px;
+  }
 }
 </style>
 </head>
 
 <body>
 
+<!-- TELA DE APRESENTAÇÃO COM DELAY -->
+<div id="loadingScreen">
+  <div class="loading-text">HUDSON ❤️ MARIANA</div>
+  <p style="opacity: 0.8; font-size: 1.2rem;">Carregando momentos especiais...</p>
+</div>
+
 <div class="stars-bg"></div>
 <div class="shooting-stars" id="shootingStars"></div>
-<audio id="music" src="musica.mp3" loop></audio>
+<audio id="music" src="musica.mp3" loop preload="auto"></audio>
+<button id="musicToggle">🔇</button>
 
 <!-- PRIMEIRA TELA -->
-<div class="screen active" id="s1" style="background: url('imagem1.webp') center/cover no-repeat;">
+<div class="screen" id="s1" style="background: url('imagem1.webp') center/cover no-repeat;">
   <h1>HUDSON ❤️ MARIANA</h1>
   <p>quer mesmo saber o que vem depois?</p><br>
   <button class="btn" onclick="next('s2')">sim como você é um amor :3</button>
@@ -206,7 +285,7 @@ h1 {
   <button class="btn" onclick="meteor()">já tá querendo me estressar né?</button>
 </div>
 
-<!-- TERCEIRA TELA - CORRIGIDA -->
+<!-- TERCEIRA TELA -->
 <div class="screen" id="s3">
   <div class="screen-content">
     <div class="pinguim-container">
@@ -222,12 +301,12 @@ h1 {
   </div>
 </div>
 
-<!-- QUARTA TELA -->
-<div class="screen" id="s4" style="background:url('casal.webp') center/cover no-repeat;">
+<!-- QUARTA TELA - IMAGEM NÃO DESFOCADA -->
+<div class="screen" id="s4">
   <div class="hearts"></div>
-  <div style="z-index: 2; position: relative; background: rgba(0,0,0,.6); padding: 30px; border-radius: 20px;">
+  <div class="s4-content">
     <h1>então vem 😎❤️</h1>
-    <p style="font-size: 1.3rem; margin-top: 20px;">
+    <p style="font-size: 1.3rem; margin-top: 20px; line-height: 1.8;">
       🤝<br><br>tmj meu sementinha
     </p>
   </div>
@@ -235,7 +314,7 @@ h1 {
 
 <!-- QUINTA TELA -->
 <div class="screen" id="s5" style="background:url('x1.webp') center/cover no-repeat;">
-  <div style="background:rgba(0,0,0,.7); padding: 30px; border-radius: 20px;">
+  <div style="background:rgba(0,0,0,.8); padding: 40px; border-radius: 20px; backdrop-filter: blur(2px);">
     <h1>então vem 😈</h1>
     <p style="font-size: 1.3rem; margin-top: 20px;">
       então vai ter que me ganhar no x1 no clash royale bb
@@ -244,10 +323,161 @@ h1 {
 </div>
 
 <script>
+// ========== CONFIGURAÇÕES ==========
 const music = document.getElementById('music');
 let musicStarted = false;
+let audioContext = null;
 
-/* 🌟 FUNÇÃO PARA CRIAR ESTRELAS CAINDO */
+// ========== DELAY INICIAL ==========
+window.addEventListener('load', function() {
+  // Mostrar tela de apresentação por 3 segundos
+  setTimeout(() => {
+    document.getElementById('loadingScreen').style.opacity = '0';
+    setTimeout(() => {
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('s1').classList.add('active');
+    }, 1500);
+  }, 3000);
+  
+  // Iniciar estrelas
+  createShootingStars();
+  
+  // Pré-carregar música
+  if (music) {
+    music.load();
+    music.volume = 0.3;
+  }
+  
+  // Inicializar sistema de áudio
+  initAudio();
+});
+
+// ========== ÁUDIO CORRIGIDO ==========
+function initAudio() {
+  // Configurar contexto de áudio
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    audioContext = new AudioContext();
+    
+    // Criar nó de ganho para controle de volume
+    const gainNode = audioContext.createGain();
+    gainNode.gain.value = 0.3;
+    
+    // Conectar fonte de áudio
+    const source = audioContext.createMediaElementSource(music);
+    source.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    // Resolver contexto suspenso no primeiro clique
+    document.addEventListener('click', function resumeAudio() {
+      if (audioContext && audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      document.removeEventListener('click', resumeAudio);
+    }, { once: true });
+    
+    console.log("Sistema de áudio inicializado");
+  } catch (error) {
+    console.log("Contexto de áudio não suportado:", error);
+  }
+}
+
+function playMusic() {
+  if (!music) {
+    console.error("Elemento de áudio não encontrado");
+    return;
+  }
+  
+  if (musicStarted) return;
+  
+  // Tentar tocar música
+  const playPromise = music.play();
+  
+  if (playPromise !== undefined) {
+    playPromise.then(() => {
+      musicStarted = true;
+      document.getElementById('musicToggle').innerHTML = '🔊';
+      console.log("Música iniciada!");
+      
+      // Fade in suave
+      music.volume = 0;
+      let vol = 0;
+      const fadeInterval = setInterval(() => {
+        vol += 0.01;
+        music.volume = Math.min(vol, 0.3);
+        if (vol >= 0.3) clearInterval(fadeInterval);
+      }, 50);
+      
+    }).catch(error => {
+      console.log("Aguardando interação para música:", error);
+      
+      // Mostrar instrução
+      showMusicAlert();
+      
+      // Tentar novamente no próximo clique
+      const retryOnClick = () => {
+        playMusic();
+        document.removeEventListener('click', retryOnClick);
+      };
+      document.addEventListener('click', retryOnClick, { once: true });
+    });
+  }
+}
+
+function showMusicAlert() {
+  const alert = document.createElement('div');
+  alert.id = 'musicAlert';
+  alert.style.cssText = `
+    position: fixed;
+    top: 80px;
+    left: 20px;
+    background: rgba(255, 95, 162, 0.95);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 10px;
+    z-index: 9999;
+    max-width: 250px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    font-size: 13px;
+    border-left: 4px solid white;
+    animation: slideIn 0.5s ease;
+  `;
+  
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes slideIn {
+      from { transform: translateX(-100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  alert.innerHTML = '🎵 Clique no botão 🔊 para ativar a música!';
+  document.body.appendChild(alert);
+  
+  setTimeout(() => {
+    if (alert.parentNode) {
+      alert.style.opacity = '0';
+      alert.style.transform = 'translateX(-100%)';
+      setTimeout(() => alert.remove(), 500);
+    }
+  }, 4000);
+}
+
+// ========== CONTROLE DE MÚSICA ==========
+document.getElementById('musicToggle').addEventListener('click', function() {
+  if (!musicStarted) {
+    playMusic();
+  } else if (music.paused) {
+    music.play();
+    this.innerHTML = '🔊';
+  } else {
+    music.pause();
+    this.innerHTML = '🔇';
+  }
+});
+
+// ========== ESTRELAS CAINDO ==========
 function createShootingStars() {
   const container = document.getElementById('shootingStars');
   
@@ -255,104 +485,69 @@ function createShootingStars() {
     const star = document.createElement('div');
     star.className = 'shooting-star';
     
-    // Tamanho aleatório
-    const width = Math.random() * 100 + 50; // 50-150px
-    const height = Math.random() * 3 + 1; // 1-4px
-    
-    // Posição inicial aleatória (fora da tela no topo)
+    const width = Math.random() * 80 + 40;
+    const height = Math.random() * 2 + 1;
     const startX = Math.random() * window.innerWidth;
     const startY = -20;
+    const duration = Math.random() * 4 + 3;
+    const angle = Math.random() * 30 + 15;
     
-    // Duração e direção aleatórias
-    const duration = Math.random() * 3 + 2; // 2-5 segundos
-    const angle = Math.random() * 30 + 15; // 15-45 graus
+    star.style.cssText = `
+      width: ${width}px;
+      height: ${height}px;
+      left: ${startX}px;
+      top: ${startY}px;
+      opacity: ${Math.random() * 0.6 + 0.4};
+      transform: rotate(${angle}deg);
+      animation: shootStar ${duration}s linear forwards;
+    `;
     
-    // Aplicar estilos
-    star.style.width = `${width}px`;
-    star.style.height = `${height}px`;
-    star.style.left = `${startX}px`;
-    star.style.top = `${startY}px`;
-    star.style.transform = `rotate(${angle}deg)`;
+    // Criar keyframes dinâmicos
+    if (!document.getElementById('starAnimation')) {
+      const style = document.createElement('style');
+      style.id = 'starAnimation';
+      style.textContent = `
+        @keyframes shootStar {
+          0% { transform: translate(0, 0) rotate(${angle}deg); opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { transform: translate(${window.innerWidth * 1.2}px, ${window.innerHeight * 1.2}px) rotate(${angle}deg); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
     
-    // Brilho aleatório
-    star.style.opacity = Math.random() * 0.7 + 0.3;
-    
-    // Animação
-    star.style.animation = `shootStar ${duration}s linear forwards`;
-    
-    // Adicionar ao container
     container.appendChild(star);
-    
-    // Remover após animação
-    setTimeout(() => {
-      if (star.parentNode === container) {
-        container.removeChild(star);
-      }
-    }, duration * 1000);
+    setTimeout(() => star.remove(), duration * 1000);
   }
   
-  // Criar animação CSS dinamicamente
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes shootStar {
-      0% {
-        transform: translate(0, 0) rotate(${Math.random() * 30 + 15}deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      90% {
-        opacity: 1;
-      }
-      100% {
-        transform: translate(${window.innerWidth * 1.5}px, ${window.innerHeight * 1.5}px) rotate(${Math.random() * 30 + 15}deg);
-        opacity: 0;
-      }
-    }
-  `;
-  document.head.appendChild(style);
-  
-  // Criar estrelas em intervalos aleatórios
+  // Criar estrelas periodicamente
   function scheduleStar() {
     createStar();
-    const nextDelay = Math.random() * 2000 + 1000; // 1-3 segundos
-    setTimeout(scheduleStar, nextDelay);
+    setTimeout(scheduleStar, Math.random() * 2500 + 1500);
   }
   
-  // Iniciar com algumas estrelas
-  for (let i = 0; i < 3; i++) {
-    setTimeout(() => createStar(), Math.random() * 2000);
+  // Iniciar
+  for (let i = 0; i < 2; i++) {
+    setTimeout(createStar, Math.random() * 1000);
   }
-  
-  // Começar a criação contínua
-  setTimeout(scheduleStar, 3000);
+  setTimeout(scheduleStar, 2000);
 }
 
-/* TOCAR MÚSICA COM FADE-IN APÓS CLIQUE */
-function playMusic() {
-  if (musicStarted) return;
-  musicStarted = true;
-  music.volume = 0;
-  music.play().then(() => {
-    let v = 0;
-    const fade = setInterval(() => {
-      v += 0.02;
-      music.volume = Math.min(v, 0.5);
-      if (v >= 0.5) clearInterval(fade);
-    }, 100);
-  }).catch(() => { console.log("Música bloqueada pelo navegador."); });
-}
-
-/* AVANÇAR TELAS */
+// ========== NAVEGAÇÃO ==========
 function next(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  playMusic();
+  
+  // Tentar tocar música se ainda não estiver tocando
+  if (!musicStarted) {
+    playMusic();
+  }
+  
   if (id === 's3') startTyping();
 }
 
-/* METEORITO */
+// ========== METEORO ==========
 function meteor() {
   next('s3');
   const meteorElement = document.createElement('div');
@@ -361,47 +556,50 @@ function meteor() {
   setTimeout(() => meteorElement.remove(), 2000);
 }
 
-/* DIGITAÇÃO ANIMADA - TEXTO COMPLETO */
+// ========== DIGITAÇÃO ==========
 const text = `Mariana, compartilhar esses dias com você, sair com você pessoalmente…
 tudo tem sido bem especial pra mim, e espero que pra ti também
 (mesmo eu te agoniando quase todo sempre).
-Mesmo em tão pouco tempo, vc acabou se tornando muito especial pra mim.`;
+Mesmo em tão pouco tempo, acabou se tornando muito especial pra mim.`;
 
-let index = 0;
 function startTyping() {
   const el = document.getElementById('typedText');
+  if (!el) return;
+  
   el.innerHTML = '';
-  index = 0;
+  let index = 0;
+  
   const typing = setInterval(() => {
-    el.innerHTML += text[index];
-    index++;
-    if (index >= text.length) clearInterval(typing);
+    if (index < text.length) {
+      el.innerHTML += text.charAt(index);
+      index++;
+    } else {
+      clearInterval(typing);
+    }
   }, 35);
 }
 
-/* CORAÇÕES CAINDO NA TELA 4 */
+// ========== CORAÇÕES ==========
 setInterval(() => {
   if (document.getElementById('s4').classList.contains('active')) {
     const heart = document.createElement('div');
     heart.className = 'heart';
     heart.innerHTML = '❤️';
-    heart.style.left = Math.random()*100 + 'vw';
-    heart.style.fontSize = (20 + Math.random()*20) + 'px';
-    heart.style.color = '#ff5fa2';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.fontSize = (20 + Math.random() * 25) + 'px';
+    heart.style.animationDuration = (3 + Math.random() * 4) + 's';
     document.querySelector('.hearts').appendChild(heart);
-    setTimeout(() => heart.remove(), 5000);
+    setTimeout(() => heart.remove(), 7000);
   }
-}, 300);
+}, 400);
 
-/* INICIAR TUDO QUANDO A PÁGINA CARREGAR */
-window.addEventListener('load', () => {
-  // Iniciar estrelas caindo
-  createShootingStars();
-  
-  // Iniciar música no primeiro clique
-  document.addEventListener('click', playMusic, { once: true });
+// ========== REDIMENSIONAMENTO ==========
+window.addEventListener('resize', () => {
+  // Atualizar animação das estrelas
+  if (document.getElementById('starAnimation')) {
+    document.getElementById('starAnimation').remove();
+  }
 });
 </script>
-
 </body>
 </html>
