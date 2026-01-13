@@ -15,7 +15,7 @@ body {
   overflow-y: hidden;
 }
 
-/* 🌌 TELA DE CARREGAMENTO/APRESENTAÇÃO */
+/* 🌌 TELA DE CARREGAMENTO */
 #loadingScreen {
   position: fixed;
   inset: 0;
@@ -30,7 +30,7 @@ body {
 
 .loading-text {
   font-size: 2.5rem;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   text-shadow: 0 0 20px #ff5fa2;
   animation: pulse 2s infinite;
 }
@@ -47,8 +47,7 @@ body {
   background: 
     radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
     radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0));
+    radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0));
   background-repeat: repeat;
   background-size: 200px 200px;
   z-index: -2;
@@ -115,10 +114,47 @@ h1 {
   font-size: 1rem;
   box-shadow: 0 0 20px rgba(255,95,162,.6);
   transition: all 0.3s;
+  position: relative;
 }
 .btn:hover { 
   transform: scale(1.05); 
   background: #ff7fb8;
+}
+
+/* BOTÃO FUGITIVO */
+.btn.runaway {
+  background: #ff3333;
+  box-shadow: 0 0 20px rgba(255, 51, 51, 0.6);
+  position: absolute;
+  transition: all 0.3s ease;
+}
+.btn.runaway:hover {
+  background: #ff6666;
+}
+
+/* BOTÃO DE ÁUDIO FIXO */
+#musicToggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: rgba(255, 95, 162, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  pointer-events: auto !important;
+}
+#musicToggle:hover {
+  background: rgba(255, 95, 162, 1);
+  transform: scale(1.1);
 }
 
 /* ☄️ METEORO */
@@ -195,10 +231,9 @@ h1 {
   border: 1px solid rgba(255, 95, 162, 0.3);
 }
 
-/* TELA 4 - IMAGEM NÃO DESFOCADA */
+/* TELA 4 */
 #s4 {
   background: url('casal.webp') center/cover no-repeat !important;
-  background-attachment: fixed !important;
 }
 
 .s4-content {
@@ -207,34 +242,34 @@ h1 {
   background: rgba(0, 0, 0, 0.7);
   padding: 40px;
   border-radius: 20px;
-  backdrop-filter: blur(2px);
   border: 2px solid rgba(255, 95, 162, 0.4);
   max-width: 800px;
   margin: 0 20px;
 }
 
-/* BOTÃO DE CONTROLE DE MÚSICA */
-#musicToggle {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 1000;
-  background: rgba(255, 95, 162, 0.9);
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
+/* NOVAS TELAS */
+.screen-content-buttons {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
 }
-#musicToggle:hover {
-  background: rgba(255, 95, 162, 1);
-  transform: scale(1.1);
+
+/* CONTEÚDO COM IMAGEM DE FUNDO */
+.screen-with-bg {
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+.screen-overlay {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(3px);
+  border: 2px solid rgba(255, 95, 162, 0.3);
+  max-width: 800px;
+  margin: 0 20px;
 }
 
 /* Ajustes para telas menores */
@@ -249,7 +284,7 @@ h1 {
     max-width: 200px;
     max-height: 150px;
   }
-  .s4-content {
+  .s4-content, .screen-overlay {
     padding: 25px;
     margin: 0 15px;
   }
@@ -259,10 +294,10 @@ h1 {
 
 <body>
 
-<!-- TELA DE APRESENTAÇÃO COM DELAY -->
+<!-- TELA DE APRESENTAÇÃO -->
 <div id="loadingScreen">
   <div class="loading-text">HUDSON ❤️ MARIANA</div>
-  <p style="opacity: 0.8; font-size: 1.2rem;">Carregando momentos especiais...</p>
+  <p style="opacity: 0.8; font-size: 1.2rem;">Carregando...</p>
 </div>
 
 <div class="stars-bg"></div>
@@ -271,18 +306,42 @@ h1 {
 <button id="musicToggle">🔇</button>
 
 <!-- PRIMEIRA TELA -->
-<div class="screen" id="s1" style="background: url('imagem1.webp') center/cover no-repeat;">
+<div class="screen active" id="s1" style="background: url('imagem1.webp') center/cover no-repeat;">
   <h1>HUDSON ❤️ MARIANA</h1>
   <p>quer mesmo saber o que vem depois?</p><br>
   <button class="btn" onclick="next('s2')">sim como você é um amor :3</button>
-  <button class="btn" onclick="next('s2')">NÃO GAROTO SAI DE MIM DOIDÃO</button>
+  <button class="btn" onclick="next('s1b')">NÃO GAROTO SAI DE MIM DOIDÃO</button>
+</div>
+
+<!-- TELA 1B - TEM CERTEZA QUE NÃO? (COM IMAGEM DE FUNDO) -->
+<div class="screen screen-with-bg" id="s1b" style="background: url('imagem1b.webp') center/cover no-repeat;">
+  <div class="screen-overlay">
+    <h1>😢 Tem certeza que não?</h1>
+    <div class="screen-content-buttons">
+      <button class="btn" onclick="next('s1c')">tenho me esquece CRL</button>
+      <button class="btn" onclick="next('s2')">tabom vai vou ve</button>
+    </div>
+  </div>
+</div>
+
+<!-- TELA 1C - VAI ME ABANDONAR? (COM IMAGEM DE FUNDO) -->
+<div class="screen screen-with-bg" id="s1c" style="background: url('imagem1c.webp') center/cover no-repeat;">
+  <div class="screen-overlay">
+    <h1>😭 Poxa vai me abandonar msm?</h1>
+    <div style="position: relative; min-height: 200px;">
+      <button id="runawayBtn" class="btn runaway" onmouseover="moveRunawayButton()">sim me deixa</button>
+      <button class="btn" onclick="next('s2')">não, eu te quero vemk</button>
+    </div>
+  </div>
 </div>
 
 <!-- SEGUNDA TELA -->
 <div class="screen" id="s2" style="background: url('imagem2.webp') center/cover no-repeat;">
-  <p style="text-shadow:0 0 20px black; background: rgba(0,0,0,0.4); padding:10px; border-radius:10px;">tem certeza que quer saber?</p><br>
-  <button class="btn" onclick="meteor()">quero sim</button>
-  <button class="btn" onclick="meteor()">já tá querendo me estressar né?</button>
+  <div class="screen-overlay">
+    <p style="text-shadow:0 0 10px black; font-size: 1.3rem;">tem certeza que quer saber?</p><br>
+    <button class="btn" onclick="meteor()">quero sim</button>
+    <button class="btn" onclick="meteor()">já tá querendo me estressar né?</button>
+  </div>
 </div>
 
 <!-- TERCEIRA TELA -->
@@ -301,7 +360,7 @@ h1 {
   </div>
 </div>
 
-<!-- QUARTA TELA - IMAGEM NÃO DESFOCADA -->
+<!-- QUARTA TELA -->
 <div class="screen" id="s4">
   <div class="hearts"></div>
   <div class="s4-content">
@@ -313,8 +372,8 @@ h1 {
 </div>
 
 <!-- QUINTA TELA -->
-<div class="screen" id="s5" style="background:url('x1.webp') center/cover no-repeat;">
-  <div style="background:rgba(0,0,0,.8); padding: 40px; border-radius: 20px; backdrop-filter: blur(2px);">
+<div class="screen screen-with-bg" id="s5" style="background:url('x1.webp') center/cover no-repeat;">
+  <div class="screen-overlay">
     <h1>então vem 😈</h1>
     <p style="font-size: 1.3rem; margin-top: 20px;">
       então vai ter que me ganhar no x1 no clash royale bb
@@ -323,7 +382,7 @@ h1 {
 </div>
 
 <script>
-// ========== CONFIGURAÇÕES ==========
+// ========== VARIÁVEIS GLOBAIS ==========
 const music = document.getElementById('music');
 let musicStarted = false;
 let audioContext = null;
@@ -342,140 +401,138 @@ window.addEventListener('load', function() {
   // Iniciar estrelas
   createShootingStars();
   
-  // Pré-carregar música
+  // Tentar iniciar música silenciosamente
   if (music) {
-    music.load();
-    music.volume = 0.3;
+    music.volume = 0;
+    // Tentar carregar e tocar em volume 0 para destravar
+    music.play().then(() => {
+      music.pause();
+      music.currentTime = 0;
+      console.log("Áudio destravado com sucesso");
+    }).catch(e => console.log("Áudio precisa de interação:", e));
   }
-  
-  // Inicializar sistema de áudio
-  initAudio();
 });
 
-// ========== ÁUDIO CORRIGIDO ==========
-function initAudio() {
-  // Configurar contexto de áudio
-  try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    audioContext = new AudioContext();
-    
-    // Criar nó de ganho para controle de volume
-    const gainNode = audioContext.createGain();
-    gainNode.gain.value = 0.3;
-    
-    // Conectar fonte de áudio
-    const source = audioContext.createMediaElementSource(music);
-    source.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    // Resolver contexto suspenso no primeiro clique
-    document.addEventListener('click', function resumeAudio() {
-      if (audioContext && audioContext.state === 'suspended') {
-        audioContext.resume();
-      }
-      document.removeEventListener('click', resumeAudio);
-    }, { once: true });
-    
-    console.log("Sistema de áudio inicializado");
-  } catch (error) {
-    console.log("Contexto de áudio não suportado:", error);
-  }
-}
-
-function playMusic() {
+// ========== SISTEMA DE ÁUDIO SIMPLIFICADO ==========
+function initAudioSystem() {
   if (!music) {
     console.error("Elemento de áudio não encontrado");
     return;
   }
   
-  if (musicStarted) return;
+  // Configurar volume inicial
+  music.volume = 0.3;
   
-  // Tentar tocar música
-  const playPromise = music.play();
+  console.log("Sistema de áudio pronto");
+}
+
+// Função para tocar música
+function playMusic() {
+  if (!music) return;
   
-  if (playPromise !== undefined) {
-    playPromise.then(() => {
-      musicStarted = true;
-      document.getElementById('musicToggle').innerHTML = '🔊';
-      console.log("Música iniciada!");
-      
-      // Fade in suave
-      music.volume = 0;
-      let vol = 0;
-      const fadeInterval = setInterval(() => {
-        vol += 0.01;
-        music.volume = Math.min(vol, 0.3);
-        if (vol >= 0.3) clearInterval(fadeInterval);
-      }, 50);
-      
-    }).catch(error => {
-      console.log("Aguardando interação para música:", error);
-      
-      // Mostrar instrução
-      showMusicAlert();
-      
-      // Tentar novamente no próximo clique
-      const retryOnClick = () => {
-        playMusic();
-        document.removeEventListener('click', retryOnClick);
-      };
-      document.addEventListener('click', retryOnClick, { once: true });
-    });
+  if (!musicStarted) {
+    musicStarted = true;
+    
+    // Tentar tocar
+    const playPromise = music.play();
+    
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        console.log("Música tocando!");
+        document.getElementById('musicToggle').innerHTML = '🔊';
+        
+        // Fade in
+        music.volume = 0;
+        let vol = 0;
+        const fade = setInterval(() => {
+          vol += 0.01;
+          music.volume = Math.min(vol, 0.3);
+          if (vol >= 0.3) clearInterval(fade);
+        }, 50);
+        
+      }).catch(error => {
+        console.log("Música bloqueada, aguardando clique...");
+        musicStarted = false;
+        
+        // Mostrar aviso
+        const alert = document.createElement('div');
+        alert.style.cssText = `
+          position: fixed;
+          top: 80px;
+          left: 20px;
+          background: rgba(255, 95, 162, 0.95);
+          color: white;
+          padding: 12px 18px;
+          border-radius: 10px;
+          z-index: 9999;
+          max-width: 250px;
+          font-size: 13px;
+          animation: slideIn 0.5s ease;
+        `;
+        alert.innerHTML = '🎵 Clique no botão 🔊 para ativar a música';
+        document.body.appendChild(alert);
+        
+        setTimeout(() => alert.remove(), 3000);
+      });
+    }
   }
 }
 
-function showMusicAlert() {
-  const alert = document.createElement('div');
-  alert.id = 'musicAlert';
-  alert.style.cssText = `
-    position: fixed;
-    top: 80px;
-    left: 20px;
-    background: rgba(255, 95, 162, 0.95);
-    color: white;
-    padding: 12px 18px;
-    border-radius: 10px;
-    z-index: 9999;
-    max-width: 250px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    font-size: 13px;
-    border-left: 4px solid white;
-    animation: slideIn 0.5s ease;
-  `;
+// ========== CONTROLE DE ÁUDIO FIXO ==========
+document.getElementById('musicToggle').addEventListener('click', function(e) {
+  e.stopPropagation(); // Impede que o clique se propague
   
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes slideIn {
-      from { transform: translateX(-100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-  `;
-  document.head.appendChild(style);
+  if (!music) return;
   
-  alert.innerHTML = '🎵 Clique no botão 🔊 para ativar a música!';
-  document.body.appendChild(alert);
-  
-  setTimeout(() => {
-    if (alert.parentNode) {
-      alert.style.opacity = '0';
-      alert.style.transform = 'translateX(-100%)';
-      setTimeout(() => alert.remove(), 500);
-    }
-  }, 4000);
-}
-
-// ========== CONTROLE DE MÚSICA ==========
-document.getElementById('musicToggle').addEventListener('click', function() {
+  // Se nunca tentou tocar antes
   if (!musicStarted) {
     playMusic();
-  } else if (music.paused) {
-    music.play();
-    this.innerHTML = '🔊';
-  } else {
+    return;
+  }
+  
+  // Se já está tocando, pausar
+  if (!music.paused) {
     music.pause();
     this.innerHTML = '🔇';
+  } else {
+    // Se está pausado, retomar
+    music.play().then(() => {
+      this.innerHTML = '🔊';
+    }).catch(() => {
+      // Se falhar, tentar destravar
+      musicStarted = false;
+      playMusic();
+    });
   }
 });
+
+// ========== BOTÃO FUGITIVO ==========
+function moveRunawayButton() {
+  const btn = document.getElementById('runawayBtn');
+  if (!btn) return;
+  
+  // Gerar posição aleatória dentro da tela 1c
+  const container = document.getElementById('s1c');
+  const containerRect = container.getBoundingClientRect();
+  
+  // Margens para não sair da tela
+  const margin = 20;
+  const maxX = containerRect.width - btn.offsetWidth - margin;
+  const maxY = containerRect.height - btn.offsetHeight - margin;
+  
+  const newX = Math.random() * maxX + margin;
+  const newY = Math.random() * maxY + margin;
+  
+  // Aplicar nova posição
+  btn.style.left = `${newX}px`;
+  btn.style.top = `${newY}px`;
+  
+  // Adicionar efeito visual
+  btn.style.transform = 'scale(1.1)';
+  setTimeout(() => {
+    btn.style.transform = 'scale(1)';
+  }, 200);
+}
 
 // ========== ESTRELAS CAINDO ==========
 function createShootingStars() {
@@ -490,7 +547,6 @@ function createShootingStars() {
     const startX = Math.random() * window.innerWidth;
     const startY = -20;
     const duration = Math.random() * 4 + 3;
-    const angle = Math.random() * 30 + 15;
     
     star.style.cssText = `
       width: ${width}px;
@@ -498,28 +554,30 @@ function createShootingStars() {
       left: ${startX}px;
       top: ${startY}px;
       opacity: ${Math.random() * 0.6 + 0.4};
-      transform: rotate(${angle}deg);
       animation: shootStar ${duration}s linear forwards;
     `;
     
-    // Criar keyframes dinâmicos
-    if (!document.getElementById('starAnimation')) {
-      const style = document.createElement('style');
-      style.id = 'starAnimation';
-      style.textContent = `
-        @keyframes shootStar {
-          0% { transform: translate(0, 0) rotate(${angle}deg); opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { transform: translate(${window.innerWidth * 1.2}px, ${window.innerHeight * 1.2}px) rotate(${angle}deg); opacity: 0; }
-        }
-      `;
-      document.head.appendChild(style);
-    }
-    
     container.appendChild(star);
-    setTimeout(() => star.remove(), duration * 1000);
+    
+    // Remover após animação
+    setTimeout(() => {
+      if (star.parentNode === container) {
+        container.removeChild(star);
+      }
+    }, duration * 1000);
   }
+  
+  // Criar keyframes dinâmicos
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes shootStar {
+      0% { transform: translate(0, 0) rotate(20deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translate(${window.innerWidth * 1.2}px, ${window.innerHeight * 1.2}px) rotate(20deg); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
   
   // Criar estrelas periodicamente
   function scheduleStar() {
@@ -539,9 +597,9 @@ function next(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   
-  // Tentar tocar música se ainda não estiver tocando
+  // Se for a primeira interação, tentar tocar música
   if (!musicStarted) {
-    playMusic();
+    setTimeout(playMusic, 500);
   }
   
   if (id === 's3') startTyping();
@@ -593,13 +651,8 @@ setInterval(() => {
   }
 }, 400);
 
-// ========== REDIMENSIONAMENTO ==========
-window.addEventListener('resize', () => {
-  // Atualizar animação das estrelas
-  if (document.getElementById('starAnimation')) {
-    document.getElementById('starAnimation').remove();
-  }
-});
+// ========== INICIAR SISTEMA DE ÁUDIO ==========
+setTimeout(initAudioSystem, 1000);
 </script>
 </body>
 </html>
