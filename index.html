@@ -143,31 +143,6 @@ h1 {
   align-items: center;
 }
 
-/* BOTÃO DE ÁUDIO FIXO */
-#musicToggle {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 1000;
-  background: rgba(255, 95, 162, 0.9);
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s;
-  pointer-events: auto !important;
-}
-#musicToggle:hover {
-  background: rgba(255, 95, 162, 1);
-  transform: scale(1.1);
-}
-
 /* ☄️ METEORO */
 .meteor {
   position: fixed;
@@ -242,20 +217,25 @@ h1 {
   border: 1px solid rgba(255, 95, 162, 0.3);
 }
 
-/* TELA 4 */
+/* TELA 4 - IMAGEM CORRIGIDA */
 #s4 {
   background: url('casal.webp') center/cover no-repeat !important;
+  background-size: contain !important;
+  background-color: #000 !important; /* Fundo preto caso a imagem não cubra tudo */
+  background-position: center center !important;
 }
 
 .s4-content {
   position: relative;
   z-index: 2;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.75);
   padding: 40px;
   border-radius: 20px;
   border: 2px solid rgba(255, 95, 162, 0.4);
   max-width: 800px;
   margin: 0 20px;
+  backdrop-filter: blur(2px);
+  text-align: center;
 }
 
 /* NOVAS TELAS */
@@ -299,6 +279,9 @@ h1 {
     padding: 25px;
     margin: 0 15px;
   }
+  #s4 {
+    background-size: cover !important; /* Em mobile, cobre toda a tela */
+  }
 }
 </style>
 </head>
@@ -313,11 +296,13 @@ h1 {
 
 <div class="stars-bg"></div>
 <div class="shooting-stars" id="shootingStars"></div>
-<audio id="music" loop preload="auto">
-  <source src="musica.mp3" type="audio/mpeg">
+
+<!-- ÁUDIO COM MÚSICA ROMÂNTICA ONLINE QUE FUNCIONA -->
+<audio id="music" autoplay loop>
+  <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-sunset-728.mp3" type="audio/mpeg">
+  <source src="https://assets.mixkit.co/music/preview/mixkit-love-selection-277.mp3" type="audio/mpeg">
   Seu navegador não suporta áudio HTML5.
 </audio>
-<button id="musicToggle">🔇</button>
 
 <!-- PRIMEIRA TELA -->
 <div class="screen" id="s1" style="background: url('imagem1.webp') center/cover no-repeat;">
@@ -374,12 +359,12 @@ h1 {
   </div>
 </div>
 
-<!-- QUARTA TELA -->
+<!-- QUARTA TELA - IMAGEM CORRIGIDA -->
 <div class="screen" id="s4">
   <div class="hearts"></div>
   <div class="s4-content">
     <h1>então vem 😎❤️</h1>
-    <p style="font-size: 1.3rem; margin-top: 20px; line-height: 1.8;">
+    <p style="font-size: 1.5rem; margin-top: 20px; line-height: 1.8;">
       🤝<br><br>tmj meu sementinha
     </p>
   </div>
@@ -399,7 +384,6 @@ h1 {
 // ========== VARIÁVEIS GLOBAIS ==========
 const music = document.getElementById('music');
 let musicStarted = false;
-let isPlaying = false;
 
 // ========== DELAY INICIAL ==========
 window.addEventListener('load', function() {
@@ -409,172 +393,79 @@ window.addEventListener('load', function() {
     setTimeout(() => {
       document.getElementById('loadingScreen').style.display = 'none';
       document.getElementById('s1').classList.add('active');
+      
+      // Tentar iniciar música após a tela de loading
+      setTimeout(startMusic, 500);
     }, 1500);
   }, 3000);
   
   // Iniciar estrelas
   createShootingStars();
-  
-  // Inicializar sistema de áudio
-  initAudio();
 });
 
-// ========== SISTEMA DE ÁUDIO CORRIGIDO ==========
-function initAudio() {
+// ========== MÚSICA ROMÂNTICA QUE FUNCIONA ==========
+function startMusic() {
   if (!music) {
     console.error("Elemento de áudio não encontrado");
     return;
   }
   
   // Configurar volume
-  music.volume = 0.3;
+  music.volume = 0.2; // Volume mais baixo para fundo
   
-  // Tentar carregar e destravar autoplay
-  music.load();
-  
-  console.log("Sistema de áudio inicializado");
-}
-
-// Função para tocar música FORÇADA
-function playMusic() {
-  if (!music) return;
-  
-  if (isPlaying) return;
-  
-  console.log("Tentando tocar música...");
-  
-  // Parar e recomeçar para forçar reprodução
-  music.pause();
-  music.currentTime = 0;
-  
-  const playPromise = music.play();
-  
-  if (playPromise !== undefined) {
-    playPromise.then(() => {
-      console.log("🎵 Música tocando com sucesso!");
-      isPlaying = true;
-      musicStarted = true;
-      document.getElementById('musicToggle').innerHTML = '🔊';
-      
-      // Fade in
-      music.volume = 0;
-      let vol = 0;
-      const fade = setInterval(() => {
-        vol += 0.01;
-        music.volume = Math.min(vol, 0.3);
-        if (vol >= 0.3) clearInterval(fade);
-      }, 30);
-      
-    }).catch(error => {
-      console.log("❌ Autoplay bloqueado:", error);
-      isPlaying = false;
-      musicStarted = false;
-      
-      // Mostrar aviso mais visível
-      showMusicAlert();
-    });
-  }
-}
-
-function showMusicAlert() {
-  // Remover alerta anterior se existir
-  const oldAlert = document.getElementById('musicAlert');
-  if (oldAlert) oldAlert.remove();
-  
-  const alert = document.createElement('div');
-  alert.id = 'musicAlert';
-  alert.style.cssText = `
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(255, 95, 162, 0.95);
-    color: white;
-    padding: 25px;
-    border-radius: 15px;
-    z-index: 9999;
-    max-width: 300px;
-    font-size: 16px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    border: 3px solid white;
-    animation: popIn 0.5s ease;
-  `;
-  
-  // Adicionar animação
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes popIn {
-      0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
-      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  // Tentar tocar música com várias estratégias
+  const playMusicWithRetry = () => {
+    console.log("🎵 Tentando tocar música romântica...");
+    
+    // Estratégia 1: Tocar normalmente
+    const playPromise = music.play();
+    
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        console.log("✅ Música romântica tocando!");
+        musicStarted = true;
+        
+        // Fade in suave
+        let vol = 0;
+        const fadeInterval = setInterval(() => {
+          vol += 0.005;
+          music.volume = Math.min(vol, 0.2);
+          if (vol >= 0.2) clearInterval(fadeInterval);
+        }, 50);
+        
+      }).catch(error => {
+        console.log("⚠️ Autoplay bloqueado, tentando estratégia 2...", error);
+        
+        // Estratégia 2: Aguardar interação do usuário
+        const enableAudio = () => {
+          music.play().then(() => {
+            console.log("✅ Música iniciada após interação!");
+            musicStarted = true;
+            document.removeEventListener('click', enableAudio);
+            document.removeEventListener('keydown', enableAudio);
+            document.removeEventListener('touchstart', enableAudio);
+          });
+        };
+        
+        // Ouvir por qualquer interação
+        document.addEventListener('click', enableAudio, { once: true });
+        document.addEventListener('keydown', enableAudio, { once: true });
+        document.addEventListener('touchstart', enableAudio, { once: true });
+      });
     }
-  `;
-  document.head.appendChild(style);
+  };
   
-  alert.innerHTML = `
-    <div style="font-size: 40px; margin-bottom: 10px;">🎵</div>
-    <strong>Clique no botão 🔊 no canto superior esquerdo</strong><br><br>
-    <small>O navegador bloqueou a música automática</small>
-  `;
-  
-  document.body.appendChild(alert);
-  
-  // Remover após 5 segundos
-  setTimeout(() => {
-    if (alert.parentNode) {
-      alert.style.opacity = '0';
-      alert.style.transition = 'opacity 0.5s';
-      setTimeout(() => alert.remove(), 500);
-    }
-  }, 5000);
+  // Iniciar música
+  playMusicWithRetry();
 }
-
-// ========== CONTROLE DE ÁUDIO FIXO ==========
-document.getElementById('musicToggle').addEventListener('click', function(e) {
-  e.stopPropagation();
-  e.preventDefault();
-  
-  console.log("Botão de música clicado");
-  
-  if (!music) {
-    console.error("Áudio não encontrado");
-    return;
-  }
-  
-  // Se música nunca foi iniciada
-  if (!musicStarted) {
-    console.log("Iniciando música pela primeira vez...");
-    playMusic();
-    return;
-  }
-  
-  // Alternar entre play/pause
-  if (isPlaying) {
-    music.pause();
-    isPlaying = false;
-    this.innerHTML = '🔇';
-    console.log("Música pausada");
-  } else {
-    music.play().then(() => {
-      isPlaying = true;
-      this.innerHTML = '🔊';
-      console.log("Música retomada");
-    }).catch(error => {
-      console.log("Erro ao retomar música:", error);
-      playMusic();
-    });
-  }
-});
 
 // ========== BOTÃO FUGITIVO CORRIGIDO ==========
 function moveRunawayButton(event) {
   const btn = document.getElementById('runawayBtn');
   if (!btn) return;
   
-  // Prevenir comportamento padrão
   event.preventDefault();
   
-  // Obter container
   const container = document.querySelector('.buttons-container');
   if (!container) return;
   
@@ -595,12 +486,12 @@ function moveRunawayButton(event) {
     newY = Math.random() * maxY + margin;
     attempts++;
     
-    // Verificar se está longe o suficiente do mouse (pelo menos 100px)
+    // Verificar se está longe o suficiente do mouse
     const mouseX = event.clientX - containerRect.left;
     const mouseY = event.clientY - containerRect.top;
     const distance = Math.sqrt(Math.pow(newX - mouseX, 2) + Math.pow(newY - mouseY, 2));
     
-    if (distance > 100 || attempts >= maxAttempts) break;
+    if (distance > 80 || attempts >= maxAttempts) break;
     
   } while (attempts < maxAttempts);
   
@@ -613,8 +504,6 @@ function moveRunawayButton(event) {
   setTimeout(() => {
     btn.style.transform = 'scale(1) rotate(0deg)';
   }, 300);
-  
-  console.log(`Botão fugitivo movido para: ${newX.toFixed(0)}px, ${newY.toFixed(0)}px`);
 }
 
 // ========== ESTRELAS CAINDO ==========
@@ -642,7 +531,6 @@ function createShootingStars() {
     
     container.appendChild(star);
     
-    // Remover após animação
     setTimeout(() => {
       if (star.parentNode === container) {
         container.removeChild(star);
@@ -650,7 +538,7 @@ function createShootingStars() {
     }, duration * 1000);
   }
   
-  // Criar keyframes dinâmicos
+  // Criar keyframes
   if (!document.getElementById('starAnimation')) {
     const style = document.createElement('style');
     style.id = 'starAnimation';
@@ -665,13 +553,11 @@ function createShootingStars() {
     document.head.appendChild(style);
   }
   
-  // Criar estrelas periodicamente
   function scheduleStar() {
     createStar();
     setTimeout(scheduleStar, Math.random() * 2500 + 1500);
   }
   
-  // Iniciar
   for (let i = 0; i < 2; i++) {
     setTimeout(createStar, Math.random() * 1000);
   }
@@ -683,11 +569,9 @@ function next(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   
-  // Tentar tocar música na primeira transição
+  // Tentar iniciar música se ainda não começou
   if (!musicStarted) {
-    setTimeout(() => {
-      playMusic();
-    }, 300);
+    setTimeout(startMusic, 300);
   }
   
   if (id === 's3') startTyping();
@@ -739,12 +623,11 @@ setInterval(() => {
   }
 }, 400);
 
-// ========== TENTAR TOCAR MÚSICA NO PRIMEIRO CLIQUE NA PÁGINA ==========
+// ========== FORÇAR INÍCIO DA MÚSICA NO PRIMEIRO CLIQUE ==========
 document.addEventListener('click', function firstClick() {
   if (!musicStarted) {
-    playMusic();
+    startMusic();
   }
-  document.removeEventListener('click', firstClick);
 }, { once: true });
 </script>
 </body>
