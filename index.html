@@ -41,6 +41,7 @@ body {
   text-align: center;
   padding: 20px;
   transition: opacity 0.8s ease;
+  color: white;
 }
 .screen.active {
   opacity: 1;
@@ -99,23 +100,11 @@ h1 {
   to { transform: translateY(110vh); opacity:0; }
 }
 
-/* IMAGEM DECORATIVA DAS PERGUNTAS */
-.img-pergunta {
-  max-width: 250px;
-  border-radius: 15px;
-  box-shadow: 0 0 15px rgba(255,95,162,0.6);
-  margin: 20px auto;
-  display: block;
-  animation: fadeIn 1.5s ease;
-}
-
+/* ANIMAÇÃO IMAGEM DECORATIVA */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-img { max-width: 300px; margin: 20px auto; }
-audio { display:none; }
 </style>
 </head>
 
@@ -124,21 +113,17 @@ audio { display:none; }
 <div class="stars"></div>
 <audio id="music" src="musica.mp3" loop></audio>
 
-<!-- PRIMEIRA TELA COM FUNDO E IMAGEM DAS PERGUNTAS -->
+<!-- PRIMEIRA TELA COM FUNDO -->
 <div class="screen active" id="s1" style="background: url('imagem1.webp') center/cover no-repeat;">
   <h1>HUDSON ❤️ MARIANA</h1>
-
-  <!-- IMAGEM DECORATIVA ACIMA DAS PERGUNTAS -->
-  <img src="imagem2.webp" alt="Pergunta especial" class="img-pergunta">
-
   <p>quer mesmo saber o que vem depois?</p><br>
   <button class="btn" onclick="next('s2')">sim como você é um amor :3</button>
   <button class="btn" onclick="next('s2')">NÃO GAROTO SAI DE MIM DOIDÃO</button>
 </div>
 
-<!-- SEGUNDA TELA -->
-<div class="screen" id="s2">
-  <p>tem certeza que quer saber?</p><br>
+<!-- SEGUNDA TELA COM IMAGEM DE FUNDO -->
+<div class="screen" id="s2" style="background: url('imagem2.webp') center/cover no-repeat;">
+  <p style="text-shadow:0 0 20px black; background: rgba(0,0,0,0.4); padding:10px; border-radius:10px;">tem certeza que quer saber?</p><br>
   <button class="btn" onclick="meteor()">quero sim</button>
   <button class="btn" onclick="meteor()">já tá querendo me estressar né?</button>
 </div>
@@ -172,11 +157,10 @@ audio { display:none; }
 const music = document.getElementById('music');
 let musicStarted = false;
 
-/* 🎶 música com fade-in (FUNCIONA NO CHROME) */
+/* TOCAR MÚSICA COM FADE-IN APÓS CLIQUE */
 function playMusic() {
   if (musicStarted) return;
   musicStarted = true;
-
   music.volume = 0;
   music.play().then(() => {
     let v = 0;
@@ -185,9 +169,10 @@ function playMusic() {
       music.volume = Math.min(v, 0.5);
       if (v >= 0.5) clearInterval(fade);
     }, 100);
-  }).catch(() => {});
+  }).catch(() => { console.log("Música bloqueada pelo navegador."); });
 }
 
+/* AVANÇAR TELAS */
 function next(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -195,6 +180,7 @@ function next(id) {
   if (id === 's3') startTyping();
 }
 
+/* METEORITO */
 function meteor() {
   next('s3');
   const m = document.createElement('div');
@@ -203,6 +189,7 @@ function meteor() {
   setTimeout(() => m.remove(), 2000);
 }
 
+/* DIGITAÇÃO ANIMADA */
 const text = `Mariana, compartilhar esses dias com você, sair com você pessoalmente…
 tudo tem sido bem especial pra mim, e espero que pra ti também
 (mesmo eu te agoniando quase todo sempre).
@@ -220,6 +207,7 @@ function startTyping() {
   }, 35);
 }
 
+/* CORAÇÕES CAINDO NA TELA 4 */
 setInterval(() => {
   if (document.getElementById('s4').classList.contains('active')) {
     const heart = document.createElement('div');
