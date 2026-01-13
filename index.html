@@ -99,6 +99,21 @@ h1 {
   to { transform: translateY(110vh); opacity:0; }
 }
 
+/* IMAGEM DECORATIVA DAS PERGUNTAS */
+.img-pergunta {
+  max-width: 250px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(255,95,162,0.6);
+  margin: 20px auto;
+  display: block;
+  animation: fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 img { max-width: 300px; margin: 20px auto; }
 audio { display:none; }
 </style>
@@ -109,9 +124,13 @@ audio { display:none; }
 <div class="stars"></div>
 <audio id="music" src="musica.mp3" loop></audio>
 
-<!-- PRIMEIRA TELA COM FUNDO -->
+<!-- PRIMEIRA TELA COM FUNDO E IMAGEM DAS PERGUNTAS -->
 <div class="screen active" id="s1" style="background: url('imagem1.webp') center/cover no-repeat;">
   <h1>HUDSON ❤️ MARIANA</h1>
+
+  <!-- IMAGEM DECORATIVA ACIMA DAS PERGUNTAS -->
+  <img src="imagem2.webp" alt="Pergunta especial" class="img-pergunta">
+
   <p>quer mesmo saber o que vem depois?</p><br>
   <button class="btn" onclick="next('s2')">sim como você é um amor :3</button>
   <button class="btn" onclick="next('s2')">NÃO GAROTO SAI DE MIM DOIDÃO</button>
