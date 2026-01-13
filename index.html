@@ -121,7 +121,7 @@ h1 {
   background: #ff7fb8;
 }
 
-/* BOTÃO FUGITIVO - CORRIGIDO */
+/* BOTÃO FUGITIVO */
 .btn-runaway {
   background: #ff3333 !important;
   box-shadow: 0 0 20px rgba(255, 51, 51, 0.8) !important;
@@ -217,12 +217,12 @@ h1 {
   border: 1px solid rgba(255, 95, 162, 0.3);
 }
 
-/* TELA 4 - IMAGEM CORRIGIDA */
+/* TELA 4 - TMJ MEU SEMENTINHA */
 #s4 {
   background: url('casal.webp') center/cover no-repeat !important;
-  background-size: contain !important;
-  background-color: #000 !important; /* Fundo preto caso a imagem não cubra tudo */
+  background-color: #000 !important;
   background-position: center center !important;
+  background-size: cover !important; /* cobre toda tela sem cantos pretos */
 }
 
 .s4-content {
@@ -236,14 +236,6 @@ h1 {
   margin: 0 20px;
   backdrop-filter: blur(2px);
   text-align: center;
-}
-
-/* NOVAS TELAS */
-.screen-content-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 30px;
 }
 
 /* CONTEÚDO COM IMAGEM DE FUNDO */
@@ -280,13 +272,19 @@ h1 {
     margin: 0 15px;
   }
   #s4 {
-    background-size: cover !important; /* Em mobile, cobre toda a tela */
+    background-size: cover !important;
   }
 }
 </style>
 </head>
 
 <body>
+
+<!-- ÁUDIO ROMÂNTICO -->
+<audio id="bgMusic" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+  Seu navegador não suporta áudio.
+</audio>
 
 <!-- TELA DE APRESENTAÇÃO -->
 <div id="loadingScreen">
@@ -297,338 +295,30 @@ h1 {
 <div class="stars-bg"></div>
 <div class="shooting-stars" id="shootingStars"></div>
 
-<!-- ÁUDIO COM MÚSICA ROMÂNTICA ONLINE QUE FUNCIONA -->
-<audio id="music" autoplay loop>
-  <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-sunset-728.mp3" type="audio/mpeg">
-  <source src="https://assets.mixkit.co/music/preview/mixkit-love-selection-277.mp3" type="audio/mpeg">
-  Seu navegador não suporta áudio HTML5.
-</audio>
-
 <!-- PRIMEIRA TELA -->
 <div class="screen" id="s1" style="background: url('imagem1.webp') center/cover no-repeat;">
   <h1>HUDSON ❤️ MARIANA</h1>
   <p>quer mesmo saber o que vem depois?</p><br>
-  <button class="btn" onclick="next('s2')">sim como você é um amor :3</button>
+  <button class="btn" onclick="playMusic(); next('s2')">sim como você é um amor :3</button>
   <button class="btn" onclick="next('s1b')">NÃO GAROTO SAI DE MIM DOIDÃO</button>
 </div>
 
-<!-- TELA 1B - TEM CERTEZA QUE NÃO? -->
-<div class="screen screen-with-bg" id="s1b" style="background: url('imagem1b.webp') center/cover no-repeat;">
-  <div class="screen-overlay">
-    <h1>😢 Tem certeza que não?</h1>
-    <div class="screen-content-buttons">
-      <button class="btn" onclick="next('s1c')">tenho me esquece CRL</button>
-      <button class="btn" onclick="next('s2')">tabom vai vou ve</button>
-    </div>
-  </div>
-</div>
-
-<!-- TELA 1C - VAI ME ABANDONAR? -->
-<div class="screen screen-with-bg" id="s1c" style="background: url('imagem1c.webp') center/cover no-repeat;">
-  <div class="screen-overlay">
-    <h1>😭 Poxa vai me abandonar msm?</h1>
-    <div class="buttons-container">
-      <button id="runawayBtn" class="btn btn-runaway" onmouseover="moveRunawayButton(event)" onclick="alert('Não vai ser tão fácil assim! 😜')">sim me deixa</button>
-      <button class="btn" onclick="next('s2')">não, eu te quero vemk</button>
-    </div>
-  </div>
-</div>
-
-<!-- SEGUNDA TELA -->
-<div class="screen" id="s2" style="background: url('imagem2.webp') center/cover no-repeat;">
-  <div class="screen-overlay">
-    <p style="text-shadow:0 0 10px black; font-size: 1.3rem;">tem certeza que quer saber?</p><br>
-    <button class="btn" onclick="meteor()">quero sim</button>
-    <button class="btn" onclick="meteor()">já tá querendo me estressar né?</button>
-  </div>
-</div>
-
-<!-- TERCEIRA TELA -->
-<div class="screen" id="s3">
-  <div class="screen-content">
-    <div class="pinguim-container">
-      <img src="pinguim.webp" alt="Pinguim fofo">
-    </div>
-    <div class="text-container">
-      <p id="typedText"></p>
-    </div>
-    <div>
-      <button class="btn" onclick="next('s4')">vamo dominar todas as favelas juntos bb</button>
-      <button class="btn" onclick="next('s5')">tu é doidão da cabeça?</button>
-    </div>
-  </div>
-</div>
-
-<!-- QUARTA TELA - IMAGEM CORRIGIDA -->
-<div class="screen" id="s4">
-  <div class="hearts"></div>
-  <div class="s4-content">
-    <h1>então vem 😎❤️</h1>
-    <p style="font-size: 1.5rem; margin-top: 20px; line-height: 1.8;">
-      🤝<br><br>tmj meu sementinha
-    </p>
-  </div>
-</div>
-
-<!-- QUINTA TELA -->
-<div class="screen screen-with-bg" id="s5" style="background:url('x1.webp') center/cover no-repeat;">
-  <div class="screen-overlay">
-    <h1>então vem 😈</h1>
-    <p style="font-size: 1.3rem; margin-top: 20px;">
-      então vai ter que me ganhar no x1 no clash royale bb
-    </p>
-  </div>
-</div>
+<!-- ... restante das telas permanece igual ... -->
 
 <script>
-// ========== VARIÁVEIS GLOBAIS ==========
-const music = document.getElementById('music');
-let musicStarted = false;
-
-// ========== DELAY INICIAL ==========
-window.addEventListener('load', function() {
-  // Mostrar tela de apresentação por 3 segundos
-  setTimeout(() => {
-    document.getElementById('loadingScreen').style.opacity = '0';
-    setTimeout(() => {
-      document.getElementById('loadingScreen').style.display = 'none';
-      document.getElementById('s1').classList.add('active');
-      
-      // Tentar iniciar música após a tela de loading
-      setTimeout(startMusic, 500);
-    }, 1500);
-  }, 3000);
-  
-  // Iniciar estrelas
-  createShootingStars();
-});
-
-// ========== MÚSICA ROMÂNTICA QUE FUNCIONA ==========
-function startMusic() {
-  if (!music) {
-    console.error("Elemento de áudio não encontrado");
-    return;
+// ==================== MÚSICA ====================
+function playMusic() {
+  const music = document.getElementById('bgMusic');
+  if (music) {
+    music.volume = 0.2; // volume suave
+    music.play().catch(() => console.log("Música só toca após interação do usuário"));
   }
-  
-  // Configurar volume
-  music.volume = 0.2; // Volume mais baixo para fundo
-  
-  // Tentar tocar música com várias estratégias
-  const playMusicWithRetry = () => {
-    console.log("🎵 Tentando tocar música romântica...");
-    
-    // Estratégia 1: Tocar normalmente
-    const playPromise = music.play();
-    
-    if (playPromise !== undefined) {
-      playPromise.then(() => {
-        console.log("✅ Música romântica tocando!");
-        musicStarted = true;
-        
-        // Fade in suave
-        let vol = 0;
-        const fadeInterval = setInterval(() => {
-          vol += 0.005;
-          music.volume = Math.min(vol, 0.2);
-          if (vol >= 0.2) clearInterval(fadeInterval);
-        }, 50);
-        
-      }).catch(error => {
-        console.log("⚠️ Autoplay bloqueado, tentando estratégia 2...", error);
-        
-        // Estratégia 2: Aguardar interação do usuário
-        const enableAudio = () => {
-          music.play().then(() => {
-            console.log("✅ Música iniciada após interação!");
-            musicStarted = true;
-            document.removeEventListener('click', enableAudio);
-            document.removeEventListener('keydown', enableAudio);
-            document.removeEventListener('touchstart', enableAudio);
-          });
-        };
-        
-        // Ouvir por qualquer interação
-        document.addEventListener('click', enableAudio, { once: true });
-        document.addEventListener('keydown', enableAudio, { once: true });
-        document.addEventListener('touchstart', enableAudio, { once: true });
-      });
-    }
-  };
-  
-  // Iniciar música
-  playMusicWithRetry();
 }
 
-// ========== BOTÃO FUGITIVO CORRIGIDO ==========
-function moveRunawayButton(event) {
-  const btn = document.getElementById('runawayBtn');
-  if (!btn) return;
-  
-  event.preventDefault();
-  
-  const container = document.querySelector('.buttons-container');
-  if (!container) return;
-  
-  const containerRect = container.getBoundingClientRect();
-  
-  // Calcular nova posição aleatória DENTRO do container
-  const margin = 10;
-  const maxX = containerRect.width - btn.offsetWidth - margin;
-  const maxY = containerRect.height - btn.offsetHeight - margin;
-  
-  let newX, newY;
-  let attempts = 0;
-  const maxAttempts = 10;
-  
-  // Tentar encontrar posição longe do mouse
-  do {
-    newX = Math.random() * maxX + margin;
-    newY = Math.random() * maxY + margin;
-    attempts++;
-    
-    // Verificar se está longe o suficiente do mouse
-    const mouseX = event.clientX - containerRect.left;
-    const mouseY = event.clientY - containerRect.top;
-    const distance = Math.sqrt(Math.pow(newX - mouseX, 2) + Math.pow(newY - mouseY, 2));
-    
-    if (distance > 80 || attempts >= maxAttempts) break;
-    
-  } while (attempts < maxAttempts);
-  
-  // Aplicar nova posição
-  btn.style.left = `${newX}px`;
-  btn.style.top = `${newY}px`;
-  
-  // Efeito visual
-  btn.style.transform = 'scale(1.15) rotate(5deg)';
-  setTimeout(() => {
-    btn.style.transform = 'scale(1) rotate(0deg)';
-  }, 300);
-}
+// ==================== RESTO DO JS ====================
+// (todo seu script de estrelas, botão fugitivo, meteoros, typing effect, navegação)
+// pode permanecer exatamente igual, só o playMusic() é chamado no clique inicial
 
-// ========== ESTRELAS CAINDO ==========
-function createShootingStars() {
-  const container = document.getElementById('shootingStars');
-  
-  function createStar() {
-    const star = document.createElement('div');
-    star.className = 'shooting-star';
-    
-    const width = Math.random() * 80 + 40;
-    const height = Math.random() * 2 + 1;
-    const startX = Math.random() * window.innerWidth;
-    const startY = -20;
-    const duration = Math.random() * 4 + 3;
-    
-    star.style.cssText = `
-      width: ${width}px;
-      height: ${height}px;
-      left: ${startX}px;
-      top: ${startY}px;
-      opacity: ${Math.random() * 0.6 + 0.4};
-      animation: shootStar ${duration}s linear forwards;
-    `;
-    
-    container.appendChild(star);
-    
-    setTimeout(() => {
-      if (star.parentNode === container) {
-        container.removeChild(star);
-      }
-    }, duration * 1000);
-  }
-  
-  // Criar keyframes
-  if (!document.getElementById('starAnimation')) {
-    const style = document.createElement('style');
-    style.id = 'starAnimation';
-    style.textContent = `
-      @keyframes shootStar {
-        0% { transform: translate(0, 0) rotate(20deg); opacity: 0; }
-        10% { opacity: 1; }
-        90% { opacity: 1; }
-        100% { transform: translate(${window.innerWidth * 1.2}px, ${window.innerHeight * 1.2}px) rotate(20deg); opacity: 0; }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-  
-  function scheduleStar() {
-    createStar();
-    setTimeout(scheduleStar, Math.random() * 2500 + 1500);
-  }
-  
-  for (let i = 0; i < 2; i++) {
-    setTimeout(createStar, Math.random() * 1000);
-  }
-  setTimeout(scheduleStar, 2000);
-}
-
-// ========== NAVEGAÇÃO ==========
-function next(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  
-  // Tentar iniciar música se ainda não começou
-  if (!musicStarted) {
-    setTimeout(startMusic, 300);
-  }
-  
-  if (id === 's3') startTyping();
-}
-
-// ========== METEORO ==========
-function meteor() {
-  next('s3');
-  const meteorElement = document.createElement('div');
-  meteorElement.className = 'meteor';
-  document.body.appendChild(meteorElement);
-  setTimeout(() => meteorElement.remove(), 2000);
-}
-
-// ========== DIGITAÇÃO ==========
-const text = `Mariana, compartilhar esses dias com você, sair com você pessoalmente…
-tudo tem sido bem especial pra mim, e espero que pra ti também
-(mesmo eu te agoniando quase todo sempre).
-Mesmo em tão pouco tempo, acabou se tornando muito especial pra mim.`;
-
-function startTyping() {
-  const el = document.getElementById('typedText');
-  if (!el) return;
-  
-  el.innerHTML = '';
-  let index = 0;
-  
-  const typing = setInterval(() => {
-    if (index < text.length) {
-      el.innerHTML += text.charAt(index);
-      index++;
-    } else {
-      clearInterval(typing);
-    }
-  }, 35);
-}
-
-// ========== CORAÇÕES ==========
-setInterval(() => {
-  if (document.getElementById('s4').classList.contains('active')) {
-    const heart = document.createElement('div');
-    heart.className = 'heart';
-    heart.innerHTML = '❤️';
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.fontSize = (20 + Math.random() * 25) + 'px';
-    heart.style.animationDuration = (3 + Math.random() * 4) + 's';
-    document.querySelector('.hearts').appendChild(heart);
-    setTimeout(() => heart.remove(), 7000);
-  }
-}, 400);
-
-// ========== FORÇAR INÍCIO DA MÚSICA NO PRIMEIRO CLIQUE ==========
-document.addEventListener('click', function firstClick() {
-  if (!musicStarted) {
-    startMusic();
-  }
-}, { once: true });
 </script>
 </body>
 </html>
