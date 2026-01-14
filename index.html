@@ -217,11 +217,12 @@ h1 {
   border: 1px solid rgba(255, 95, 162, 0.3);
 }
 
-/* TELA 4 - IMAGEM CORRIGIDA */
+/* TELA 4 - MELHORADO */
 #s4 {
-  background: url('casal.webp') center/contain no-repeat !important;
+  background: url('casal.webp') center/cover no-repeat !important;
   background-color: #000 !important;
   background-position: center center !important;
+  background-size: cover !important;
 }
 
 .s4-content {
@@ -266,26 +267,25 @@ h1 {
 @media (max-width: 768px) {
   h1 { font-size: 2rem; }
   .screen { padding: 15px; }
-  .text-container {
-    font-size: 1rem;
-    padding: 20px;
-  }
-  .pinguim-container {
-    max-width: 200px;
-    max-height: 150px;
-  }
-  .s4-content, .screen-overlay {
-    padding: 25px;
-    margin: 0 15px;
-  }
-  #s4 {
-    background-size: cover !important;
-  }
+  .text-container { font-size: 1rem; padding: 20px; }
+  .pinguim-container { max-width: 200px; max-height: 150px; }
+  .s4-content, .screen-overlay { padding: 25px; margin: 0 15px; }
+  #s4 { background-size: cover !important; }
 }
 </style>
 </head>
 
 <body>
+
+<!-- 🎵 EMBED DO SOUNDCLOUD -->
+<iframe 
+  width="0" 
+  height="0" 
+  scrolling="no" 
+  frameborder="no" 
+  allow="autoplay" 
+  src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/adriano-freitas-194002939/eskaralhadinha&color=%23ff5500&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false">
+</iframe>
 
 <!-- TELA DE APRESENTAÇÃO -->
 <div id="loadingScreen">
@@ -304,7 +304,7 @@ h1 {
   <button class="btn" onclick="next('s1b')">NÃO GAROTO SAI DE MIM DOIDÃO</button>
 </div>
 
-<!-- TELA 1B - TEM CERTEZA QUE NÃO? -->
+<!-- TELA 1B -->
 <div class="screen screen-with-bg" id="s1b" style="background: url('imagem1b.webp') center/cover no-repeat;">
   <div class="screen-overlay">
     <h1>😢 Tem certeza que não?</h1>
@@ -315,7 +315,7 @@ h1 {
   </div>
 </div>
 
-<!-- TELA 1C - VAI ME ABANDONAR? -->
+<!-- TELA 1C -->
 <div class="screen screen-with-bg" id="s1c" style="background: url('imagem1c.webp') center/cover no-repeat;">
   <div class="screen-overlay">
     <h1>😭 Poxa vai me abandonar msm?</h1>
@@ -351,14 +351,12 @@ h1 {
   </div>
 </div>
 
-<!-- QUARTA TELA - IMAGEM CORRIGIDA -->
+<!-- QUARTA TELA -->
 <div class="screen" id="s4">
   <div class="hearts"></div>
   <div class="s4-content">
     <h1>então vem 😎❤️</h1>
-    <p style="font-size: 1.5rem; margin-top: 20px; line-height: 1.8;">
-      🤝<br><br>tmj meu sementinha famosa matarindo🥵
-    </p>
+    <p style="font-size: 1.5rem; margin-top: 20px; line-height: 1.8;">🤝<br><br>tmj meu sementinha famosa matarindo🥵</p>
   </div>
 </div>
 
@@ -366,186 +364,43 @@ h1 {
 <div class="screen screen-with-bg" id="s5" style="background:url('x1.webp') center/cover no-repeat;">
   <div class="screen-overlay">
     <h1>então vem 😈</h1>
-    <p style="font-size: 1.3rem; margin-top: 20px;">
-      então vai ter que me ganhar no x1 no clash royale bb
-    </p>
+    <p style="font-size: 1.3rem; margin-top: 20px;">então vai ter que me ganhar no x1 no clash royale bb</p>
   </div>
 </div>
 
 <script>
 // ========== DELAY INICIAL ==========
 window.addEventListener('load', function() {
-  // Mostrar tela de apresentação por 3 segundos
   setTimeout(() => {
-    document.getElementById('loadingScreen').style.opacity = '0';
-    setTimeout(() => {
-      document.getElementById('loadingScreen').style.display = 'none';
-      document.getElementById('s1').classList.add('active');
-    }, 1500);
-  }, 3000);
-  
-  // Iniciar estrelas
+    document.getElementById('loadingScreen').style.opacity='0';
+    setTimeout(()=>{document.getElementById('loadingScreen').style.display='none';document.getElementById('s1').classList.add('active');},1500);
+  },3000);
   createShootingStars();
 });
 
-// ========== BOTÃO FUGITIVO CORRIGIDO ==========
-function moveRunawayButton(event) {
-  const btn = document.getElementById('runawayBtn');
-  if (!btn) return;
-  
-  event.preventDefault();
-  
-  const container = document.querySelector('.buttons-container');
-  if (!container) return;
-  
-  const containerRect = container.getBoundingClientRect();
-  
-  // Calcular nova posição aleatória DENTRO do container
-  const margin = 10;
-  const maxX = containerRect.width - btn.offsetWidth - margin;
-  const maxY = containerRect.height - btn.offsetHeight - margin;
-  
-  let newX, newY;
-  let attempts = 0;
-  const maxAttempts = 10;
-  
-  // Tentar encontrar posição longe do mouse
-  do {
-    newX = Math.random() * maxX + margin;
-    newY = Math.random() * maxY + margin;
-    attempts++;
-    
-    // Verificar se está longe o suficiente do mouse
-    const mouseX = event.clientX - containerRect.left;
-    const mouseY = event.clientY - containerRect.top;
-    const distance = Math.sqrt(Math.pow(newX - mouseX, 2) + Math.pow(newY - mouseY, 2));
-    
-    if (distance > 80 || attempts >= maxAttempts) break;
-    
-  } while (attempts < maxAttempts);
-  
-  // Aplicar nova posição
-  btn.style.left = `${newX}px`;
-  btn.style.top = `${newY}px`;
-  
-  // Efeito visual
-  btn.style.transform = 'scale(1.15) rotate(5deg)';
-  setTimeout(() => {
-    btn.style.transform = 'scale(1) rotate(0deg)';
-  }, 300);
-}
+// ========== BOTÃO FUGITIVO ==========
+function moveRunawayButton(event){const btn=document.getElementById('runawayBtn');if(!btn)return;event.preventDefault();const container=document.querySelector('.buttons-container');if(!container)return;const containerRect=container.getBoundingClientRect();const margin=10;const maxX=containerRect.width-btn.offsetWidth-margin;const maxY=containerRect.height-btn.offsetHeight-margin;let newX,newY,attempts=0;const maxAttempts=10;do{newX=Math.random()*maxX+margin;newY=Math.random()*maxY+margin;attempts++;const mouseX=event.clientX-containerRect.left;const mouseY=event.clientY-containerRect.top;const distance=Math.sqrt(Math.pow(newX-mouseX,2)+Math.pow(newY-mouseY,2));if(distance>80||attempts>=maxAttempts)break;}while(attempts<maxAttempts);btn.style.left=`${newX}px`;btn.style.top=`${newY}px`;btn.style.transform='scale(1.15) rotate(5deg)';setTimeout(()=>{btn.style.transform='scale(1) rotate(0deg)';},300);}
 
 // ========== ESTRELAS CAINDO ==========
-function createShootingStars() {
-  const container = document.getElementById('shootingStars');
-  
-  function createStar() {
-    const star = document.createElement('div');
-    star.className = 'shooting-star';
-    
-    const width = Math.random() * 80 + 40;
-    const height = Math.random() * 2 + 1;
-    const startX = Math.random() * window.innerWidth;
-    const startY = -20;
-    const duration = Math.random() * 4 + 3;
-    
-    star.style.cssText = `
-      width: ${width}px;
-      height: ${height}px;
-      left: ${startX}px;
-      top: ${startY}px;
-      opacity: ${Math.random() * 0.6 + 0.4};
-      animation: shootStar ${duration}s linear forwards;
-    `;
-    
-    container.appendChild(star);
-    
-    setTimeout(() => {
-      if (star.parentNode === container) {
-        container.removeChild(star);
-      }
-    }, duration * 1000);
-  }
-  
-  // Criar keyframes
-  if (!document.getElementById('starAnimation')) {
-    const style = document.createElement('style');
-    style.id = 'starAnimation';
-    style.textContent = `
-      @keyframes shootStar {
-        0% { transform: translate(0, 0) rotate(20deg); opacity: 0; }
-        10% { opacity: 1; }
-        90% { opacity: 1; }
-        100% { transform: translate(${window.innerWidth * 1.2}px, ${window.innerHeight * 1.2}px) rotate(20deg); opacity: 0; }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-  
-  function scheduleStar() {
-    createStar();
-    setTimeout(scheduleStar, Math.random() * 2500 + 1500);
-  }
-  
-  for (let i = 0; i < 2; i++) {
-    setTimeout(createStar, Math.random() * 1000);
-  }
-  setTimeout(scheduleStar, 2000);
-}
+function createShootingStars(){const container=document.getElementById('shootingStars');function createStar(){const star=document.createElement('div');star.className='shooting-star';const width=Math.random()*80+40;const height=Math.random()*2+1;const startX=Math.random()*window.innerWidth;const startY=-20;const duration=Math.random()*4+3;star.style.cssText=`width:${width}px;height:${height}px;left:${startX}px;top:${startY}px;opacity:${Math.random()*0.6+0.4};animation: shootStar ${duration}s linear forwards;`;container.appendChild(star);setTimeout(()=>{if(star.parentNode===container)container.removeChild(star);},duration*1000);}if(!document.getElementById('starAnimation')){const style=document.createElement('style');style.id='starAnimation';style.textContent=`@keyframes shootStar{0%{transform:translate(0,0) rotate(20deg);opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{transform:translate(${window.innerWidth*1.2}px,${window.innerHeight*1.2}px) rotate(20deg);opacity:0;}}`;document.head.appendChild(style);}function scheduleStar(){createStar();setTimeout(scheduleStar,Math.random()*2500+1500);}for(let i=0;i<2;i++)setTimeout(createStar,Math.random()*1000);setTimeout(scheduleStar,2000);}
 
 // ========== NAVEGAÇÃO ==========
-function next(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  
-  if (id === 's3') startTyping();
-}
+function next(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='s3')startTyping();}
 
 // ========== METEORO ==========
-function meteor() {
-  next('s3');
-  const meteorElement = document.createElement('div');
-  meteorElement.className = 'meteor';
-  document.body.appendChild(meteorElement);
-  setTimeout(() => meteorElement.remove(), 2000);
-}
+function meteor(){next('s3');const meteorElement=document.createElement('div');meteorElement.className='meteor';document.body.appendChild(meteorElement);setTimeout(()=>meteorElement.remove(),2000);}
 
 // ========== DIGITAÇÃO ==========
-const text = `Mariana, compartilhar esses dias com você, sair com você pessoalmente…
+const text=`Mariana, compartilhar esses dias com você, sair com você pessoalmente…
 tudo tem sido bem especial pra mim, e espero que pra ti também
 (mesmo eu te agoniando quase todo sempre).
 Mesmo em tão pouco tempo, acabou se tornando muito especial pra mim.`;
 
-function startTyping() {
-  const el = document.getElementById('typedText');
-  if (!el) return;
-  
-  el.innerHTML = '';
-  let index = 0;
-  
-  const typing = setInterval(() => {
-    if (index < text.length) {
-      el.innerHTML += text.charAt(index);
-      index++;
-    } else {
-      clearInterval(typing);
-    }
-  }, 35);
-}
+function startTyping(){const el=document.getElementById('typedText');if(!el)return;el.innerHTML='';let index=0;const typing=setInterval(()=>{if(index<text.length){el.innerHTML+=text.charAt(index);index++;}else clearInterval(typing);},35);}
 
 // ========== CORAÇÕES ==========
-setInterval(() => {
-  if (document.getElementById('s4').classList.contains('active')) {
-    const heart = document.createElement('div');
-    heart.className = 'heart';
-    heart.innerHTML = '❤️';
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.fontSize = (20 + Math.random() * 25) + 'px';
-    heart.style.animationDuration = (3 + Math.random() * 4) + 's';
-    document.querySelector('.hearts').appendChild(heart);
-    setTimeout(() => heart.remove(), 7000);
-  }
-}, 400);
+setInterval(()=>{if(document.getElementById('s4').classList.contains('active')){const heart=document.createElement('div');heart.className='heart';heart.innerHTML='❤️';heart.style.left=Math.random()*100+'vw';heart.style.fontSize=(20+Math.random()*25)+'px';heart.style.animationDuration=(3+Math.random()*4)+'s';document.querySelector('.hearts').appendChild(heart);setTimeout(()=>heart.remove(),7000);}},400);
+
 </script>
 </body>
 </html>
