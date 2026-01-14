@@ -7,6 +7,7 @@
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
 body { background: radial-gradient(circle at top, #1b2735 0%, #090a0f 100%); color: white; min-height: 100vh; overflow-x: hidden; overflow-y: hidden; }
+
 /* 🌌 TELA DE CARREGAMENTO */
 #loadingScreen { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%); z-index: 9999; transition: opacity 1.5s ease; }
 .loading-text { font-size: 2.5rem; margin-bottom: 15px; text-shadow: 0 0 20px #ff5fa2; animation: pulse 2s infinite; }
@@ -50,8 +51,13 @@ h1 { font-size:3rem; margin-bottom:20px; text-shadow:0 0 20px #ff5fa2; }
 .pinguim-container img { max-width:100%; max-height:200px; height:auto; border-radius:15px; box-shadow:0 0 30px rgba(255,255,255,0.3);}
 .text-container { background:rgba(0,0,0,0.8); padding:25px; border-radius:15px; max-width:800px; margin:0 auto 30px; line-height:1.6; font-size:1.2rem; backdrop-filter:blur(3px); border:1px solid rgba(255,95,162,0.3); }
 
-/* TELA 4 - MELHORADO */
-#s4 { background:url('casal.webp') center/cover no-repeat !important; background-color:#000 !important; background-position:center center !important; background-size:cover !important;}
+/* TELA 4 - MELHORADO PARA NÃO CORTAR */
+#s4 {
+  background: url('casal.webp') center/contain no-repeat !important;
+  background-color: #000 !important;
+  background-position: center center !important;
+  background-size: contain !important; /* Mantém a imagem inteira */
+}
 .s4-content { position:relative; z-index:2; background:rgba(0,0,0,0.75); padding:40px; border-radius:20px; border:2px solid rgba(255,95,162,0.4); max-width:800px; margin:0 20px; backdrop-filter:blur(2px); text-align:center;}
 
 /* NOVAS TELAS */
@@ -60,7 +66,7 @@ h1 { font-size:3rem; margin-bottom:20px; text-shadow:0 0 20px #ff5fa2; }
 .screen-overlay { background: rgba(0,0,0,0.6); padding:40px; border-radius:20px; backdrop-filter:blur(3px); border:2px solid rgba(255,95,162,0.3); max-width:800px; margin:0 20px; }
 
 /* Ajustes para telas menores */
-@media (max-width:768px) { h1{font-size:2rem;} .screen{padding:15px;} .text-container{font-size:1rem;padding:20px;} .pinguim-container{max-width:200px; max-height:150px;} .s4-content,.screen-overlay{padding:25px;margin:0 15px;} #s4{background-size:cover !important;} }
+@media (max-width:768px) { h1{font-size:2rem;} .screen{padding:15px;} .text-container{font-size:1rem;padding:20px;} .pinguim-container{max-width:200px; max-height:150px;} .s4-content,.screen-overlay{padding:25px;margin:0 15px;} #s4{background-size:contain !important;} }
 </style>
 </head>
 <body>
@@ -154,7 +160,7 @@ h1 { font-size:3rem; margin-bottom:20px; text-shadow:0 0 20px #ff5fa2; }
     scrolling="no" 
     frameborder="no" 
     allow="autoplay" 
-    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/adriano-freitas-194002939/eskaralhadinha&color=%23ff5500&auto_play=true&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true">
+    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/caio-manhaes/mc-poze-a-volta-pra-chacrinha-elenco-do-bato-2019-dj-shurek-da-vo&color=%23ff5500&auto_play=true&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true&visual=false">
   </iframe>
 </div>
 
