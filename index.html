@@ -30,7 +30,7 @@ h1 { font-size:3rem; margin-bottom:20px; text-shadow:0 0 20px #ff5fa2; }
 .btn:hover { transform: scale(1.05); background:#ff7fb8; }
 
 /* BOTÃO FUGITIVO */
-.btn-runaway { background:#ff3333 !important; box-shadow:0 0 20px rgba(255,51,51,0.8) !important; position:absolute !important; transition: all 0.2s ease !important; z-index:10;}
+.btn-runaway { background:#ff3333 !important; box-shadow:0 0 20px rgba(255,51,51,0.8) !important; position:absolute !important; transition: all 0.1s ease !important; z-index:10;}
 .btn-runaway:hover { background:#ff6666 !important; }
 
 /* CONTAINER PARA BOTÕES FUGITIVOS */
@@ -56,7 +56,7 @@ h1 { font-size:3rem; margin-bottom:20px; text-shadow:0 0 20px #ff5fa2; }
   background: url('casal.webp') center/contain no-repeat !important;
   background-color: #000 !important;
   background-position: center center !important;
-  background-size: contain !important; /* Mantém a imagem inteira */
+  background-size: contain !important;
 }
 .s4-content { position:relative; z-index:2; background:rgba(0,0,0,0.75); padding:40px; border-radius:20px; border:2px solid rgba(255,95,162,0.4); max-width:800px; margin:0 20px; backdrop-filter:blur(2px); text-align:center;}
 
@@ -84,7 +84,7 @@ h1 { font-size:3rem; margin-bottom:20px; text-shadow:0 0 20px #ff5fa2; }
 <div class="screen" id="s1" style="background:url('imagem1.webp') center/cover no-repeat;">
   <h1>HUDSON ❤️ MARIANA</h1>
   <p>quer mesmo saber o que vem depois?</p><br>
-  <button class="btn" onclick="firstClick('s2')">sim como você é um amor :3</button>
+  <button class="btn" onclick="playMusic();next('s2')">sim como você é um amor :3</button>
   <button class="btn" onclick="next('s1b')">NÃO GAROTO SAI DE MIM DOIDÃO</button>
 </div>
 
@@ -94,7 +94,7 @@ h1 { font-size:3rem; margin-bottom:20px; text-shadow:0 0 20px #ff5fa2; }
     <h1>😢 Tem certeza que não?</h1>
     <div class="screen-content-buttons">
       <button class="btn" onclick="next('s1c')">tenho me esquece CRL</button>
-      <button class="btn" onclick="next('s2')">tabom vai vou ve</button>
+      <button class="btn" onclick="playMusic();next('s2')">tabom vai vou ve</button>
     </div>
   </div>
 </div>
@@ -105,7 +105,7 @@ h1 { font-size:3rem; margin-bottom:20px; text-shadow:0 0 20px #ff5fa2; }
     <h1>😭 Poxa vai me abandonar msm?</h1>
     <div class="buttons-container">
       <button id="runawayBtn" class="btn btn-runaway" onmouseover="moveRunawayButton(event)" onclick="alert('Não vai ser tão fácil assim! 😜')">sim me deixa</button>
-      <button class="btn" onclick="next('s2')">não, eu te quero vemk</button>
+      <button class="btn" onclick="playMusic();next('s2')">não, eu te quero vemk</button>
     </div>
   </div>
 </div>
@@ -114,8 +114,8 @@ h1 { font-size:3rem; margin-bottom:20px; text-shadow:0 0 20px #ff5fa2; }
 <div class="screen" id="s2" style="background:url('imagem2.webp') center/cover no-repeat;">
   <div class="screen-overlay">
     <p style="text-shadow:0 0 10px black;font-size:1.3rem;">tem certeza que quer saber?</p><br>
-    <button class="btn" onclick="meteor()">quero sim</button>
-    <button class="btn" onclick="meteor()">já tá querendo me estressar né?</button>
+    <button class="btn" onclick="meteor();playMusic()">quero sim</button>
+    <button class="btn" onclick="meteor();playMusic()">já tá querendo me estressar né?</button>
   </div>
 </div>
 
@@ -148,57 +148,89 @@ h1 { font-size:3rem; margin-bottom:20px; text-shadow:0 0 20px #ff5fa2; }
 <div class="screen screen-with-bg" id="s5" style="background:url('x1.webp') center/cover no-repeat;">
   <div class="screen-overlay">
     <h1>então vem 😈</h1>
-    <p style="font-size:1.3rem;margin-top:20px;">então vai ter que me ganhar no x1 no clash royale bb</p>
+    <p style="font-size:1.3rem;margin-top:20px;">então vai ter que me ganhar no x1 no clash royale pra me largar bb</p>
   </div>
 </div>
 
-<!-- EMBED DO SOUNDCLOUD (CANTO INFERIOR DIREITO) -->
-<div style="position:fixed; bottom:5px; right:5px; width:180px; height:40px; z-index:999;">
-  <iframe 
-    id="soundCloudPlayer"
-    width="180" 
-    height="40" 
-    scrolling="no" 
-    frameborder="no" 
-    allow="autoplay" 
-    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/caio-manhaes/mc-poze-a-volta-pra-chacrinha-elenco-do-bato-2019-dj-shurek-da-vo&color=%23ff5500&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true&visual=false">
-  </iframe>
-</div>
+<!-- BOTÃO DE MÚSICA -->
+<button id="playMusicBtn" onclick="playMusic()" style="position:fixed;bottom:10px;left:10px;z-index:9999;padding:10px 15px;border-radius:10px;background:#ff5fa2;color:white;border:none;cursor:pointer;">🎵 Tocar música</button>
 
-<!-- BOTÃO PARA TOCAR MÚSICA -->
-<div style="position:fixed; bottom:50px; right:10px; z-index:999;">
-  <button class="btn" onclick="playMusic()" style="padding:10px 15px;font-size:0.9rem;">▶️ Tocar música</button>
-</div>
-
+<!-- SCRIPT -->
 <script>
 // ========== DELAY INICIAL ==========
 window.addEventListener('load',()=>{
   setTimeout(()=>{
     document.getElementById('loadingScreen').style.opacity='0';
-    setTimeout(()=>{document.getElementById('loadingScreen').style.display='none';document.getElementById('s1').classList.add('active');},1500);
+    setTimeout(()=>{
+      document.getElementById('loadingScreen').style.display='none';
+      document.getElementById('s1').classList.add('active');
+    },1500);
   },3000);
   createShootingStars();
 });
 
-// NAVEGAÇÃO
+// ========== NAVEGAÇÃO ==========
 function next(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active'); if(id==='s3') startTyping();}
 
-// PRIMEIRO CLIQUE (toca música também se quiser)
-function firstClick(id){
-  next(id);
-  playMusic();
+// ========== BOTÃO FUGITIVO TURBO ==========
+function moveRunawayButton(event){
+  const btn=document.getElementById('runawayBtn'); if(!btn)return;
+  event.preventDefault();
+  const container=document.querySelector('.buttons-container'); if(!container)return;
+
+  const containerRect=container.getBoundingClientRect();
+  const margin=5;
+  const maxX=containerRect.width-btn.offsetWidth-margin;
+  const maxY=containerRect.height-btn.offsetHeight-margin;
+
+  let newX,newY,attempts=0;
+  const maxAttempts=15;
+
+  do{
+    newX=Math.random()*maxX+margin;
+    newY=Math.random()*maxY+margin;
+    attempts++;
+    const mouseX=event.clientX-containerRect.left;
+    const mouseY=event.clientY-containerRect.top;
+    const distance=Math.sqrt(Math.pow(newX-mouseX,2)+Math.pow(newY-mouseY,2));
+    if(distance>50||attempts>=maxAttempts) break;
+  }while(attempts<maxAttempts);
+
+  btn.style.left=`${newX}px`;
+  btn.style.top=`${newY}px`;
+  btn.style.transition='transform 0.1s ease';
+  btn.style.transform=`scale(1.2) rotate(${Math.random()*20-10}deg)`;
+  setTimeout(()=>{btn.style.transform='scale(1) rotate(0deg)';},100);
 }
 
-// BOTÃO FUGITIVO
-function moveRunawayButton(event){const btn=document.getElementById('runawayBtn');if(!btn)return;event.preventDefault();const container=document.querySelector('.buttons-container');if(!container)return;const containerRect=container.getBoundingClientRect();const margin=10;const maxX=containerRect.width-btn.offsetWidth-margin;const maxY=containerRect.height-btn.offsetHeight-margin;let newX,newY,attempts=0;const maxAttempts=10;do{newX=Math.random()*maxX+margin;newY=Math.random()*maxY+margin;attempts++;const mouseX=event.clientX-containerRect.left;const mouseY=event.clientY-containerRect.top;const distance=Math.sqrt(Math.pow(newX-mouseX,2)+Math.pow(newY-mouseY,2));if(distance>80||attempts>=maxAttempts)break;}while(attempts<maxAttempts);btn.style.left=`${newX}px`;btn.style.top=`${newY}px`;btn.style.transform='scale(1.15) rotate(5deg)';setTimeout(()=>{btn.style.transform='scale(1) rotate(0deg)';},300);}
+// ========== ESTRELAS ==========
+function createShootingStars(){
+  const container=document.getElementById('shootingStars');
+  function createStar(){
+    const star=document.createElement('div'); star.className='shooting-star';
+    const width=Math.random()*80+40;
+    const height=Math.random()*2+1;
+    const startX=Math.random()*window.innerWidth;
+    const startY=-20;
+    const duration=Math.random()*4+3;
+    star.style.cssText=`width:${width}px;height:${height}px;left:${startX}px;top:${startY}px;opacity:${Math.random()*0.6+0.4};animation: shootStar ${duration}s linear forwards;`;
+    container.appendChild(star);
+    setTimeout(()=>{if(star.parentNode===container) container.removeChild(star);},duration*1000);
+  }
+  if(!document.getElementById('starAnimation')){
+    const style=document.createElement('style'); style.id='starAnimation';
+    style.textContent=`@keyframes shootStar{0%{transform:translate(0,0) rotate(20deg);opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{transform:translate(${window.innerWidth*1.2}px,${window.innerHeight*1.2}px) rotate(20deg);opacity:0;}}`;
+    document.head.appendChild(style);
+  }
+  function scheduleStar(){ createStar(); setTimeout(scheduleStar, Math.random()*2500+1500); }
+  for(let i=0;i<2;i++) setTimeout(createStar, Math.random()*1000);
+  setTimeout(scheduleStar,2000);
+}
 
-// ESTRELAS
-function createShootingStars(){const container=document.getElementById('shootingStars');function createStar(){const star=document.createElement('div');star.className='shooting-star';const width=Math.random()*80+40;const height=Math.random()*2+1;const startX=Math.random()*window.innerWidth;const startY=-20;const duration=Math.random()*4+3;star.style.cssText=`width:${width}px;height:${height}px;left:${startX}px;top:${startY}px;opacity:${Math.random()*0.6+0.4};animation: shootStar ${duration}s linear forwards;`;container.appendChild(star);setTimeout(()=>{if(star.parentNode===container)container.removeChild(star);},duration*1000);}if(!document.getElementById('starAnimation')){const style=document.createElement('style');style.id='starAnimation';style.textContent=`@keyframes shootStar{0%{transform:translate(0,0) rotate(20deg);opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{transform:translate(${window.innerWidth*1.2}px,${window.innerHeight*1.2}px) rotate(20deg);opacity:0;}}`;document.head.appendChild(style);}function scheduleStar(){createStar();setTimeout(scheduleStar,Math.random()*2500+1500);}for(let i=0;i<2;i++)setTimeout(createStar,Math.random()*1000);setTimeout(scheduleStar,2000);}
+// ========== METEORO ==========
+function meteor(){ next('s3'); const meteorElement=document.createElement('div'); meteorElement.className='meteor'; document.body.appendChild(meteorElement); setTimeout(()=>meteorElement.remove(),2000);}
 
-// METEORO
-function meteor(){next('s3'); const meteorElement=document.createElement('div'); meteorElement.className='meteor'; document.body.appendChild(meteorElement); setTimeout(()=>meteorElement.remove(),2000);}
-
-// DIGITAÇÃO
+// ========== DIGITAÇÃO ==========
 const text=`Mariana, compartilhar esses dias com você, sair com você pessoalmente…
 tudo tem sido bem especial pra mim, e espero que pra ti também
 (mesmo eu te agoniando quase todo sempre).
@@ -206,13 +238,27 @@ Mesmo em tão pouco tempo, vc acabou se tornando muito especial pra mim.`;
 
 function startTyping(){const el=document.getElementById('typedText');if(!el)return;el.innerHTML='';let index=0;const typing=setInterval(()=>{if(index<text.length){el.innerHTML+=text.charAt(index);index++;}else clearInterval(typing);},35);}
 
-// CORAÇÕES
-setInterval(()=>{if(document.getElementById('s4').classList.contains('active')){const heart=document.createElement('div');heart.className='heart';heart.innerHTML='❤️';heart.style.left=Math.random()*100+'vw';heart.style.fontSize=(20+Math.random()*25)+'px';heart.style.animationDuration=(3+Math.random()*4)+'s';document.querySelector('.hearts').appendChild(heart);setTimeout(()=>heart.remove(),7000);}},400);
+// ========== CORAÇÕES ==========
+setInterval(()=>{
+  if(document.getElementById('s4').classList.contains('active')){
+    const heart=document.createElement('div'); heart.className='heart'; heart.innerHTML='❤️';
+    heart.style.left=Math.random()*100+'vw';
+    heart.style.fontSize=(20+Math.random()*25)+'px';
+    heart.style.animationDuration=(3+Math.random()*4)+'s';
+    document.querySelector('.hearts').appendChild(heart);
+    setTimeout(()=>heart.remove(),7000);
+  }
+},400);
 
-// ========== SOM ==========
+// ========== MÚSICA ==========
+let musicStarted=false;
 function playMusic(){
-  const iframe=document.getElementById('soundCloudPlayer');
-  iframe.contentWindow.postMessage('{"method":"play"}','*');
+  if(musicStarted) return;
+  const audio=document.createElement('iframe');
+  audio.width=0; audio.height=0; audio.scrolling="no"; audio.frameBorder="no"; audio.allow="autoplay";
+  audio.src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/caio-manhaes/mc-poze-a-volta-pra-chacrinha-elenco-do-bato-2019-dj-shurek-da-vo&auto_play=true&visual=false";
+  document.body.appendChild(audio);
+  musicStarted=true;
 }
 </script>
 </body>
